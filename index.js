@@ -3,10 +3,15 @@
 // create variables
 const playerScoreBoard = document.querySelector('.playerScore');
 const computerScoreBoard = document.querySelector('.computerScore');
+const tieScoreBoard = document.querySelector('.tiesScore');
 const throwText = document.querySelector('.throwText');
-const submitButton = document.querySelector('.submit')
+const submitButton = document.querySelector('.submit');
+const playerThrowChoice = document.querySelector('.playerThrow');
+const computerThrowChoice = document.querySelector('.computerThrow')
+
 let playerScore = 0; // players score
 let compScore = 0; // computers score
+let tieScore = 0;
 let playerThrow; // records the players throw
 let compThrow; // records the computers throw
 let newGame; // yes or no
@@ -22,7 +27,6 @@ submitButton.addEventListener('click', function (e){
 // create function to get throw from player
 function getPlayerThrow() {
   playerT = throwText.value;
-  console.log(playerT);
   processPlayerThrow(playerT);
 }
 
@@ -38,6 +42,7 @@ function processPlayerThrow(playerT) {
   } else {
     return;
   }
+  playerThrowChoice.innerText = playerThrow.toUpperCase();
   console.log("The player throws " + playerThrow);
   compThrowCheck(playerThrow);
 }
@@ -56,6 +61,7 @@ function compThrowCheck() {
   if (ranNum == 2) {
     compThrow = "scissors"
   } 
+  computerThrowChoice.innerHTML = compThrow.toUpperCase();
   console.log("The computer throws " + compThrow);
   decideRound();
 }
@@ -65,6 +71,9 @@ function decideRound() {
   // if tie go again
   if (playerThrow == compThrow){
     console.log("Draw");
+    tieScore++;
+    currentScore(playerScore, compScore, tieScore);
+    
     return;
   // player wins 
   } else if (playerThrow == "rock" && compThrow == "scissors"){
@@ -87,14 +96,15 @@ function decideRound() {
     console.log("Computer Wins Throw - paper is cut by scissors");
     compScore++;
   } 
-  currentScore(playerScore, compScore);
+  currentScore(playerScore, compScore, tieScore);
 }
 
 // inform player of score
-function currentScore(playerScore, compScore) {
+function currentScore(playerScore, compScore, tieScore) {
   console.log(`The current score is - ${playerScore} player - ${compScore} computer`);
-  playerScoreBoard.innerHTML = playerScore;
-  computerScoreBoard.innerHTML = compScore;
+  playerScoreBoard.textContent = playerScore;
+  computerScoreBoard.textContent = compScore;
+  tieScoreBoard.textContent = tieScore;
   checkIfGameOver();
 }
 
